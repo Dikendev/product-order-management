@@ -1,5 +1,6 @@
 package com.system.productorder.entities;
 
+import com.system.productorder.entities.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -18,6 +19,7 @@ public class Order implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Instant moment;
+    private Integer orderStatus;
 
     @ManyToOne  // many Orders to 1 user
     @JoinColumn(name= "client_id")   // store the foreign key for this relationship
@@ -26,11 +28,22 @@ public class Order implements Serializable {
     public Order() {
     }
 
-    public Order(Long id, Instant moment, User client) {
+    public Order(Long id, Instant moment, User client, OrderStatus orderStatus) {
         super();
         this.id = id;
         this.moment = moment;
         this.client = client;
+        setOrderStatus(orderStatus);
+    }
+
+    public OrderStatus getOrderStatus() {
+        return OrderStatus.valueOf(orderStatus);
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        if (orderStatus != null) {
+            this.orderStatus = orderStatus.getCode();
+        }
     }
 
     @Override
