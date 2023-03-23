@@ -2,10 +2,12 @@ package com.system.productorder.config;
 
 import com.system.productorder.entities.Category;
 import com.system.productorder.entities.Order;
+import com.system.productorder.entities.Product;
 import com.system.productorder.entities.User;
 import com.system.productorder.entities.enums.OrderStatus;
 import com.system.productorder.repositories.CategoryRepository;
 import com.system.productorder.repositories.OrderRepository;
+import com.system.productorder.repositories.ProductRepository;
 import com.system.productorder.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,6 +28,9 @@ public class TestConfig implements CommandLineRunner {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
     public void run(String... args) throws Exception {
         User u1 = new User(null, "Cristina Freitas","cristina@gmai.com" ,"999999", "12345");
@@ -39,8 +44,15 @@ public class TestConfig implements CommandLineRunner {
         Category c2 = new Category(null, "Books");
         Category c3 = new Category(null,"Computers");
 
+        Product p1 =new Product(null,"Lorenzito", "Incrivel vale a pena", 22.4,"");
+        Product p2 = new Product(null, "Lol", "Isso ai", 456.1, "");
+        Product p3 = new Product(null, "Macbook m1", "Incrivel", 6000.3, "");
+        Product p4 = new Product(null, "Winwind", "Fazer oque", 540.2, "");
+        Product p5 = new Product(null, "DS@D", "Isso loren loren", 2333.45, "");
+
         userRepository.saveAll(Arrays.asList(u1,u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
         categoryRepository.saveAll(Arrays.asList(c1,c2,c3));
+        productRepository.saveAll(Arrays.asList(p1,p2,p3,p4,p5));
     }
 }
