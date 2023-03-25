@@ -1,19 +1,14 @@
 package com.system.productorder.config;
 
-import com.system.productorder.entities.Category;
-import com.system.productorder.entities.Order;
-import com.system.productorder.entities.Product;
-import com.system.productorder.entities.User;
+import com.system.productorder.entities.*;
 import com.system.productorder.entities.enums.OrderStatus;
-import com.system.productorder.repositories.CategoryRepository;
-import com.system.productorder.repositories.OrderRepository;
-import com.system.productorder.repositories.ProductRepository;
-import com.system.productorder.repositories.UserRepository;
+import com.system.productorder.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import java.lang.reflect.Array;
 import java.time.Instant;
 import java.util.Arrays;
 
@@ -27,18 +22,19 @@ public class TestConfig implements CommandLineRunner {
     private OrderRepository orderRepository;
     @Autowired
     private CategoryRepository categoryRepository;
-
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
         Category c1 = new Category(null, "Cellphones");
         Category c2 = new Category(null, "Books");
-        Category c3 = new Category(null,"Computers");
+        Category c3 = new Category(null, "Computers");
 
-        Product p1 =new Product(null,"Iphone 11", "Desempenho incrivel", 500.4,"");
+        Product p1 = new Product(null, "Iphone 11", "Desempenho incrivel", 500.4,"");
         Product p2 = new Product(null, "Head first Java", "Melhor livro sobre java", 1800.1, "");
         Product p3 = new Product(null, "Macbook m1", "Incrivel", 6000.3, "");
         Product p4 = new Product(null, "Iphone 14", "É o futuro", 540.2, "");
@@ -55,8 +51,8 @@ public class TestConfig implements CommandLineRunner {
 
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-        User u1 = new User(null, "Cristina Freitas","cristina@gmai.com" ,"999999", "12345");
-        User u2 = new User(null,"David Michel", "David@gmail.com", "92999999", "32212");
+        User u1 = new User(null, "Cristina Freitas", "cristina@gmai.com" , "999999", "12345");
+        User u2 = new User(null, "David Michel", "David@gmail.com", "92999999", "32212");
 
         Order o1 = new Order(null, Instant.parse("2023-06-20T19:53:04Z"), u1, OrderStatus.PAID);
         Order o2 = new Order(null, Instant.parse("2023-04-22T03:23:12Z"), u2, OrderStatus.WAITING_PAYMENT);
@@ -64,5 +60,12 @@ public class TestConfig implements CommandLineRunner {
 
         userRepository.saveAll(Arrays.asList(u1,u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+
+        OrderItem oi1 = new OrderItem(o1, p1, 1, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p2, 2, p4.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p2, 2, p4.getPrice());
+        OrderItem oi4 = new OrderItem(o3,p3, 1, p3.getPrice());
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
     }
 }
