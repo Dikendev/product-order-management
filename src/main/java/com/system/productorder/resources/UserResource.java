@@ -37,4 +37,9 @@ public class UserResource {
         User obj = userService.findById(id);
         return ResponseEntity.ok().body(obj);
     }
+
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
